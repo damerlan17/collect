@@ -1,0 +1,25 @@
+
+{
+  "name": "<ваш_логин>/collect",
+  "description": "Simple array collection wrapper for PHP",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ваше Имя",
+      "email": "your@email.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.4 | ^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Collect\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  }
+}
