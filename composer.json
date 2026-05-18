@@ -1,6 +1,6 @@
 
 {
-  "name": "<ваш_логин>/collect",
+  "name": "damerlan17/collect",
   "description": "Simple array collection wrapper for PHP",
   "type": "library",
   "license": "MIT",
