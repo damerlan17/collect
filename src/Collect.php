@@ -13,12 +13,12 @@ class Collect
 
     public function get($key = null)
     {
-        return $key === null ? $this->array : ($this->array[$key] ?? null);
+        return $this->array[$key] ?? $this->array;
     }
 
     public function first()
     {
-        return $this->array[array_key_first($this->array)] ?? null;
+        return $this->array[array_key_first($this->array)];
     }
 
     public function count(): int
@@ -31,12 +31,12 @@ class Collect
         return $this->array;
     }
 
-    public function map(callable $callback): self
+    public function map(callable $callback): Collect
     {
         return new self(array_map($callback, $this->array));
     }
 
-    public function each(callable $callback, ...$args): self
+    public function each(callable $callback, ...$args): Collect
     {
         foreach ($this->array as $key => $item) {
             $callback($item, $key, ...$args);
@@ -44,54 +44,40 @@ class Collect
         return $this;
     }
 
-    public function push($value, $key = null): self
+    public function push($value, $key = null): Collect
     {
-        if ($key === null) {
-            $this->array[] = $value;
-        } else {
+        if (gettype($value) === 'array') {
+            $value = new self($value);
+        }
+        if ($key) {
             $this->array[$key] = $value;
+        } else {
+            $this->array[] = $value;
         }
         return $this;
     }
 
-    public function unshift($value): self
+    public function unshift($value): Collect
     {
         array_unshift($this->array, $value);
         return $this;
     }
 
-    public function shift(): self
+    public function shift(): Collect
     {
         array_shift($this->array);
         return $this;
     }
 
-    public function pop(): self
+    public function pop(): Collect
     {
         array_pop($this->array);
         return $this;
     }
 
-    public function splice(int $offset, ?int $length = null): self
+    public function splice($idx, $length = 1): Collect
     {
-        $this->array = array_splice($this->array, $offset, $length);
-        return $this;
-    }
-
-    // Дополнительные полезные методы
-    public function filter(callable $callback): self
-    {
-        return new self(array_filter($this->array, $callback, ARRAY_FILTER_USE_BOTH));
-    }
-
-    public function pluck(string $key): self
-    {
-        return new self(array_column($this->array, $key));
-    }
-
-    public function merge(array $array): self
-    {
-        $this->array = array_merge($this->array, $array);
+        array_splice($idx, $length);
         return $this;
     }
 }
